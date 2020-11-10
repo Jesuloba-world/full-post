@@ -1,17 +1,24 @@
-import React from 'react';
+import React from "react";
 
-import Link from './Link/Link';
-import './Links.css';
+import Link from "./Link/Link";
+import "./Links.css";
 
 const links = (props) => (
-    <header className="Links">
-        <nav>
-            <ul>
-                <Link name="Home" link="/" />
-                <Link name="New Post" link="/new-post" /> 
-            </ul>
-        </nav>
-    </header>
+	<header className="Links">
+		<nav>
+			<ul>
+				<Link name="Posts" link="/posts" />
+				<Link
+					name="New Post"
+					link={{
+						pathname: "/new-post",
+						hash: "#submit",
+						search: "?quick-submit=true",
+					}}
+				/>
+			</ul>
+		</nav>
+	</header>
 );
 
-export default links
+export default links;

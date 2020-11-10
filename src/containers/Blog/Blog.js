@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-// import axios from "axios";
-import axios from '../../axios';
+import { Route, Switch } from "react-router-dom";
 
 import Links from "../../components/Links/Links";
-import Posts from './Posts/Posts';
+import Posts from "./Posts/Posts";
+import NewPost from "./NewPost/NewPost";
+// import FullPost from "./FullPost/FullPost";
 import "./Blog.css";
 
 class Blog extends Component {
@@ -11,7 +12,11 @@ class Blog extends Component {
 		return (
 			<div>
 				<Links />
-				<Posts />
+				{/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
+				<Switch>
+					<Route path="/new-post" exact component={NewPost} />
+					<Route path="/posts/" component={Posts} />
+				</Switch>
 			</div>
 		);
 	}

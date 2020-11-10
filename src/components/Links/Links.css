@@ -17,6 +17,7 @@
 }
 
 .Links a:hover,
-.Links a:active {
+.Links a:active,
+.Links a.active {
     color: #fa923f;
 }

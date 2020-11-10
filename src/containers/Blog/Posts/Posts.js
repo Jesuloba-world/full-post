@@ -1,19 +1,25 @@
 import React, { Component } from "react";
-import axios from '../../../axios'
+import axios from "../../../axios";
+import { Route } from 'react-router-dom';
+// import { Link } from "react-router-dom";
 
-import Post from '../../../components/Post/Post';
-import './Posts.css';
+import Post from "../../../components/Post/Post";
+import FullPost from '../FullPost/FullPost';
+import "./Posts.css";
 
 class Posts extends Component {
-    state = {
+	state = {
 		posts: [],
-    };
+		error: false,
+	};
 
-    componentDidMount() {
+	componentDidMount() {
+		// console.log(this.props);
+
 		axios
 			.get("/posts")
 			.then((response) => {
-				const posts = response.data.slice(0, 10);
+				const posts = response.data.slice(0, 4);
 				const updatedPosts = posts.map((post) => {
 					return {
 						...post,
@@ -23,36 +29,47 @@ class Posts extends Component {
 				this.setState({ posts: updatedPosts });
 			})
 			.catch((err) => {
-                console.log(err);
-				//this.setState({ error: true });
+				console.log(err);
+				this.setState({ error: true });
 			});
 	}
-    
-    postSelectedHandler = (id) => {
-		this.setState({ selectedPostId: id });
+
+	postSelectedHandler = (id) => {
+		this.props.history.push({ pathname: "/posts/" + id });
+		// this.props.history.push('/' + id);
 	};
 
 	render() {
-        let posts = (
-            <p style={{ textAlign: "center", color: "red" }}>
-                Something went wrong!!
-            </p>
-        );
-    
-        if (!this.state.error) {
-            posts = this.state.posts.map((post) => {
-                return (
-                    <Post
-                        key={post.id}
-                        title={post.title}
-                        author={post.author}
-                        clicked={() => this.postSelectedHandler(post.id)}
-                    />
-                );
-            });
-        }
+		let posts = (
+			<p style={{ textAlign: "center", color: "red" }}>
+				Something went wrong!!
+			</p>
+		);
 
-		return <section className="Posts">{posts}</section>;
+		if (!this.state.error) {
+			posts = this.state.posts.map((post) => {
+				return (
+					// <Link
+					// 	to={"/" + post.id}
+					// 	key={post.id}
+					// >
+					<Post
+						title={post.title}
+						key={post.id}
+						author={post.author}
+						clicked={() => this.postSelectedHandler(post.id)}
+					/>
+					// </Link>
+				);
+			});
+		}
+
+		return (
+			<div>
+				<section className="Posts">{posts}</section>
+				<Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+			</div>
+		);
 	}
 }
 
