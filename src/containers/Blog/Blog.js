@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect} from "react-router-dom";
 
 import Links from "../../components/Links/Links";
 import Posts from "./Posts/Posts";
@@ -15,7 +15,8 @@ class Blog extends Component {
 				{/* <Route path="/" exact render={() => <h1>Home</h1>} /> */}
 				<Switch>
 					<Route path="/new-post" exact component={NewPost} />
-					<Route path="/posts/" component={Posts} />
+					<Route path="/posts" component={Posts} />
+					<Redirect from="/" to="/posts" />
 				</Switch>
 			</div>
 		);
